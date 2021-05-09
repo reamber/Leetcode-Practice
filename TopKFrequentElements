@@ -1,0 +1,46 @@
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        numDict = {}
+        topK = []
+        for num in nums:
+            freq = 1
+            if numDict.get(num) != None:
+                freq = numDict.get(num) + 1
+            numDict.update({num: freq})
+            
+        items = list(numDict.items())
+    
+        
+        if len(items) == k:
+            return numDict.keys()
+        
+        for item in items:
+            if len(topK) == 0:
+                topK.append(item)
+            else:
+                if item[1] < topK[0][1] and len(topK) == k:
+                    continue
+                for i in range(len(topK)):
+                    if i == len(topK) - 1:
+                        if item[1] > topK[i][1]:
+                            topK.append(item)
+                        else:
+                            topK.insert(i, item)
+                        break
+                    elif item[1] <= topK[i][1]:
+                        topK.insert(i, item)
+                        break
+                
+                if len(topK) > k:
+                    del topK[0]
+        
+        ans = []
+        
+        for i in range(k):
+            ans.append(topK[i][0])
+            
+        return ans
+            
+            
+            
+        
